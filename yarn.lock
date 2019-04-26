@@ -1269,7 +1269,7 @@
     validate-npm-package-license "^3.0.4"
 
 "@pika/plugin-build-node@0.3.15":
-  version "0.3.14"
+  version "0.3.15"
   resolved "https://registry.yarnpkg.com/@pika/plugin-build-node/-/plugin-build-node-0.3.15.tgz#9389a9519cab33927ba6d2f86b298473e0693239"
   integrity sha512-iB99JwXs3BNTuMikHnzhUI1d3x6JGBxFcGSI2yFSroqP8sFOr57VItWfB2q09QiQ2EKqtNX9sAuUTS8Q0HdWjw==
   dependencies:
@@ -1295,7 +1295,7 @@
     typescript "^3.0.0"
 
 "@pika/plugin-build-web@0.3.15":
-  version "0.3.14"
+  version "0.3.15"
   resolved "https://registry.yarnpkg.com/@pika/plugin-build-web/-/plugin-build-web-0.3.15.tgz#e7b7ac368d66cb0e7307fb1d4abbdbac2dc1d19f"
   integrity sha512-vKTP9xNPCOpwRY97XvoNxLEU3ZhjgNLex7E33AI6As6Ut5ILSIeQtu4PmvGxLs/movfcMijW0CXqhf+aEUywYQ==
   dependencies:
@@ -1309,7 +1309,7 @@
     rollup-plugin-babel "^4.3.0"
 
 "@pika/plugin-ts-standard-pkg@0.3.15":
-  version "0.3.14"
+  version "0.3.15"
   resolved "https://registry.yarnpkg.com/@pika/plugin-ts-standard-pkg/-/plugin-ts-standard-pkg-0.3.15.tgz#c61f4d6a2c4b4a352d7b55411a0eb172336a8651"
   integrity sha512-ms4qoBo/uQLISW11Ymlmgdh8Y/+g6iMuTqLM85xw9h1hcG6HcZOB1GAAFvOawaw5YhIqhGm7p4wx+VXIPq05GQ==
   dependencies:
@@ -1502,7 +1502,7 @@
   resolved "https://registry.yarnpkg.com/@types/jest-diff/-/jest-diff-20.0.1.tgz#35cc15b9c4f30a18ef21852e255fdb02f6d59b89"
   integrity sha512-yALhelO3i0hqZwhjtcr6dYyaLoCHbAMshwtj6cGxTvHZAKXHsYGdff6E8EPw3xLKY0ELUTQ69Q1rQiJENnccMA==
 
-"@types/jest@^24.0.11":
+"@types/jest@24.0.11":
   version "24.0.11"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-24.0.11.tgz#1f099bea332c228ea6505a88159bfa86a5858340"
   integrity sha512-2kLuPC5FDnWIDvaJBzsGTBQaBbnDweznicvK7UGYzlIJP4RJR2a4A/ByLUXEyEgag6jz8eHdlWExGDtH3EYUXQ==
@@ -6021,7 +6021,7 @@ jest-worker@^24.6.0:
     merge-stream "^1.0.1"
     supports-color "^6.1.0"
 
-jest@^24.7.1:
+jest@24.7.1:
   version "24.7.1"
   resolved "https://registry.yarnpkg.com/jest/-/jest-24.7.1.tgz#0d94331cf510c75893ee32f87d7321d5bf8f2501"
   integrity sha512-AbvRar5r++izmqo5gdbAjTeA6uNRGoNRuj5vHB0OnDXo2DXWZJVuaObiGgtlvhKb+cWy2oYbQSfxv7Q7GjnAtA==
@@ -8059,7 +8059,7 @@ redux-saga@0.16.0:
   resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.16.0.tgz#0a231db0a1489301dd980f6f2f88d8ced418f724"
   integrity sha1-CiMdsKFIkwHdmA9vL4jYztQY9yQ=
 
-redux@^4.0.1:
+redux@4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.1.tgz#436cae6cc40fbe4727689d7c8fae44808f1bfef5"
   integrity sha512-R7bAtSkk7nY6O/OYMVR9RiBI+XghjF9rlbl5806HJbQph0LJVHZrU5oaO4q70eUKiqMRqm4y07KLTlMZ2BlVmg==
