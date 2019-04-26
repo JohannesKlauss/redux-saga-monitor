@@ -8,6 +8,8 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
+    "tsc": "tsc --noEmit",
+    "tsc-watch": "tsc --noEmit --watch",
     "build": "pack build",
     "publish": "pack publish",
     "docz:dev": "docz dev",

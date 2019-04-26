@@ -1,5 +1,6 @@
 import {Effect} from "redux-saga";
 import {AnyAction} from "redux";
+import {SAGA_ACTION} from "redux-saga/utils";
 
 export type Status = 'STATUS_PENDING'
   | 'STATUS_RESOLVED'
@@ -8,20 +9,40 @@ export type Status = 'STATUS_PENDING'
 
 export type TimeFunc = () => number;
 
-export interface TriggeredEffect {
+export type EffectIndexSignature = number
+  | null
+  | Effect
+  | string
+  | boolean
+  | undefined
+  | Status
+  | number[]
+  | AnyAction
+  | Error
+  | TriggeredEffect[]
+  ;
+
+export interface EffectDescription {
   effectId: number;
   parentEffectId: number;
   effect: Effect;
-  start: number;
-  end?: number;
-  time?: number;
   label?: string;
   root?: boolean;
+  start?: number;
+
+  [key: string]: EffectIndexSignature;
+}
+
+export interface TriggeredEffect extends EffectDescription{
+  end?: number;
+  time?: number;
   status?: Status;
   path?: number[];
   result?: AnyAction;
   error?: Error;
   winner?: boolean;
+
+  [key: string]: EffectIndexSignature;
 }
 
 export interface DispatchedAction {
@@ -31,12 +52,17 @@ export interface DispatchedAction {
   isSagaAction: boolean;
 }
 
+export interface SagaAction extends AnyAction {
+  [key: string]: any;
+}
+
 export interface BaseAction extends AnyAction {
   time: number;
+  effectId?: number;
 }
 
 export interface EffectTriggeredAction extends BaseAction {
-  effect: TriggeredEffect;
+  effect: EffectDescription;
 }
 
 export interface EffectCancelledAction extends BaseAction {

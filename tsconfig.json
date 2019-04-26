@@ -3,9 +3,12 @@
     "target": "es2018",
     "module": "esnext",
     "moduleResolution": "node",
+    "declaration": true,
+    "noImplicitAny": true,
     "jsx": "react",
     "strict": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/*.spec.ts"]

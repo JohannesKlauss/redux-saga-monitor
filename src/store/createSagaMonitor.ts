@@ -1,7 +1,7 @@
 import {Monitor} from "redux-saga";
-import {AnyAction, createStore} from "redux";
+import {createStore, Store} from "redux";
 import rootReducer from "./reducers";
-import {TimeFunc, TriggeredEffect} from "../types";
+import {EffectDescription, SagaAction, TimeFunc, TriggeredEffect} from "../types";
 import {ACTION_DISPATCHED, EFFECT_CANCELLED, EFFECT_REJECTED, EFFECT_RESOLVED, EFFECT_TRIGGERED} from "./constants";
 import {is, SAGA_ACTION} from "redux-saga/utils";
 
@@ -12,15 +12,22 @@ function getTime() {
     return Date.now();
 }
 
-export default function createSagaMonitor(time: TimeFunc = getTime): Monitor {
+export interface SagaMonitor extends Monitor {
+  store: Store;
+}
+
+export default function createSagaMonitor(time: TimeFunc = getTime): SagaMonitor {
   const store = createStore(rootReducer);
   const dispatch = store.dispatch;
 
-  function effectTriggered(effect: TriggeredEffect) {
+  function effectTriggered(effect: EffectDescription) {
+    const now = time();
+
     dispatch({
       type: EFFECT_TRIGGERED,
       effect,
-      time: time(),
+      start: now,
+      time: now,
     });
   }
 
@@ -66,8 +73,8 @@ export default function createSagaMonitor(time: TimeFunc = getTime): Monitor {
     });
   }
 
-  function actionDispatched(action: AnyAction) {
-    const isSagaAction: boolean = action[SAGA_ACTION];
+  function actionDispatched(action: SagaAction) {
+    const isSagaAction: boolean = action[SAGA_ACTION.toString()];
 
     dispatch({
       type: ACTION_DISPATCHED,
@@ -79,6 +86,7 @@ export default function createSagaMonitor(time: TimeFunc = getTime): Monitor {
   }
 
   return {
+    get store() { return store },
     effectTriggered,
     effectResolved,
     effectRejected,

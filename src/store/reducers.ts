@@ -1,6 +1,6 @@
 import {
   BaseAction,
-  DispatchedActionsState, EffectCancelledAction,
+  DispatchedActionsState, EffectCancelledAction, EffectDescription,
   EffectsByIdState,
   EffectsByParentIdState,
   EffectsState, EffectTriggeredAction,
@@ -22,43 +22,41 @@ import {asEffect} from "redux-saga/utils";
 
 const CHILDREN = Symbol('CHILDREN');
 
-const getPathToEffect = (effect: TriggeredEffect, effectsByIdState: EffectsByIdState): number[] => {
+const getPathToEffect = (effect: EffectDescription, effectsByIdState: EffectsByIdState): number[] => {
   let effectId = effect.effectId;
   const path = [effectId];
 
-  while (effectId) {
+  while (effect && effect.parentEffectId > -1) {
     effectId = effect.parentEffectId;
 
-    if (effectId) {
-      path.push(effectId);
+    path.push(effectId);
 
-      effect = effectsByIdState[effectId];
-    }
+    effect = effectsByIdState[effectId];
   }
 
   return path.reverse();
 };
 
-const settleEffect = (effect: TriggeredEffect, action: EffectTriggeredAction, isError?: boolean): TriggeredEffect => ({
+const settleEffect = (effect: EffectDescription, action: EffectTriggeredAction, isError?: boolean): TriggeredEffect => ({
   ...effect,
   result: action.result,
   error: action.error,
   status: isError ? STATUS_REJECTED : STATUS_RESOLVED,
   end: action.time,
-  time: action.time - effect.start,
+  time: action.time - effect.start!,
 });
 
-const cancelEffect = (effect: TriggeredEffect, action: EffectCancelledAction): TriggeredEffect => ({
+const cancelEffect = (effect: EffectDescription, action: EffectCancelledAction): TriggeredEffect => ({
   ...effect,
   status: STATUS_CANCELLED,
   end: action.time,
-  time: action.time - effect.start,
+  time: action.time - effect.start!,
 });
 
-const maybeSetRaceWinner = (effect: TriggeredEffect, result: AnyAction, state: EffectsByIdState): EffectsByIdState => {
+const maybeSetRaceWinner = (effect: EffectDescription, result: AnyAction, state: EffectsByIdState): EffectsByIdState => {
   if (asEffect.race(effect.effect)) {
     const label: string = Object.keys(result)[0];
-    const children = effect[CHILDREN];
+    const children = effect[CHILDREN.toString()] as EffectDescription[];
 
     for (let i = 0; i < children.length; i++) {
       const child = children[i];
@@ -95,14 +93,13 @@ export function effectIds(state: EffectsState = [], action: AnyAction): EffectsS
 
 export function effectsById(state: EffectsByIdState = {}, action: BaseAction): EffectsByIdState {
   let
-    effectId: number = action.effectId,
-    effect: TriggeredEffect,
+    effectId: number = action.effectId ? action.effectId : (action as EffectTriggeredAction).effect.effectId,
+    effect: EffectDescription,
     newState: EffectsByIdState;
 
   switch (action.type) {
     case EFFECT_TRIGGERED:
       effect = (action as EffectTriggeredAction).effect;
-      effectId = effect.effectId;
 
       newState = {
         ...state,
@@ -110,14 +107,17 @@ export function effectsById(state: EffectsByIdState = {}, action: BaseAction): E
           ...effect,
           status: STATUS_PENDING,
           start: action.time,
-          path: effect.parentEffectId ? getPathToEffect(effect, state) : [effectId],
+          path: effect.parentEffectId > -1 ? getPathToEffect(effect, state) : [effectId],
         }
       };
 
-      const parent = state[effect.parentEffectId];
+      // TODO: UNDERSTAND WHAT THIS DOES EXACTLY.
+      if (effect.parentEffectId > -1) {
+        const parent = state[effect.parentEffectId];
 
-      if (parent && asEffect.race(parent.effect)) {
-        parent[CHILDREN].push(effect);
+        if (parent && asEffect.race(parent.effect)) {
+          (parent[CHILDREN.toString()] as EffectDescription[]).push(effect);
+        }
       }
 
       return newState;
@@ -135,13 +135,13 @@ export function effectsById(state: EffectsByIdState = {}, action: BaseAction): E
     case EFFECT_REJECTED:
       return {
         ...state,
-        [effectId]: settleEffect(state[effectId], action, true),
+        [effectId]: settleEffect(state[effectId], (action as EffectTriggeredAction), true),
       };
 
     case EFFECT_CANCELLED:
       return {
         ...state,
-        [effectId]: cancelEffect(state[effectId]),
+        [effectId]: cancelEffect(state[effectId], (action as EffectCancelledAction)),
       };
 
     default:
@@ -154,7 +154,7 @@ export function effectsByParentId(state: EffectsByParentIdState = {}, action: An
     const effect = action.effect;
     const parentId = effect.parentEffectId;
 
-    if (parentId) {
+    if (parentId > -1) {
       const siblings = state[parentId];
 
       return {

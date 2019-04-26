@@ -11,7 +11,7 @@ import {asEffect, is} from "redux-saga/utils";
 import {AnyAction} from "redux";
 import {STATUS_RESOLVED} from "./constants";
 
-export function getEffectName(state: State, effectId) {
+export function getEffectName(state: State, effectId: number) {
   const effect = state.effectsById[effectId].effect;
 
   if ((effect as RootEffect).root) {
@@ -40,10 +40,12 @@ export function getEffectName(state: State, effectId) {
     return `${type}(${(data as ForkEffectDescriptor).fn.name})`;
   }
   else if ((data = asEffect.join(effect))) {
-    return `join(${(data as JoinEffectDescriptor).name})`;
+    console.log('>>> data', data as JoinEffectDescriptor);
+    // return `join(${(data as JoinEffectDescriptor).name})`;
   }
   else if ((data = asEffect.cancel(effect))) {
-    return `cancel(${(data as CancelEffectDescriptor).name})`;
+    console.log('>>> data', data as CancelEffectDescriptor);
+    // return `cancel(${(data as CancelEffectDescriptor).name})`;
   }
   else if (is.array(effect)) {
     return `parallel`;
@@ -93,18 +95,22 @@ export function getTaskForEffect(state: State, effect: TriggeredEffect) {
   }
 }
 
-export function getPathToEffect(state: State, effectId: number, rootEffectIds: number[]) {
+export function getPathToEffect(state: State, effectId: number, rootEffectIds: number[]): number[] {
   const path = state.effectsById[effectId].path;
   let k = 0;
 
-  while(rootEffectIds.indexOf(path[k]) < 0) {
-    k++;
+  if(path) {
+    while(rootEffectIds.indexOf(path[k]) < 0) {
+      k++;
+    }
+
+    return path.slice(k);
   }
 
-  return path.slice(k);
+  return [];
 }
 
-export function isParentOf(state: State, parentId: number, effectId: number) {
+export function isParentOf(state: State, parentId: number, effectId: number): boolean {
   let parentEffectId = state.effectsById[effectId].parentEffectId;
 
   while(parentEffectId) {
@@ -118,7 +124,7 @@ export function isParentOf(state: State, parentId: number, effectId: number) {
   return false;
 }
 
-export function matchCurrentAction(state: State, effectId: number) {
+export function matchCurrentAction(state: State, effectId: number): boolean | undefined {
   const effect = state.effectsById[effectId];
   const currentAction = state.sharedRef.currentAction;
 
