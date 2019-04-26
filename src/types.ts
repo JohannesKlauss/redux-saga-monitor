@@ -6,10 +6,15 @@ export type Status = 'STATUS_PENDING'
   | 'STATUS_REJECTED'
   | 'STATUS_CANCELLED';
 
+export type TimeFunc = () => number;
+
 export interface TriggeredEffect {
   effectId: number;
   parentEffectId: number;
   effect: Effect;
+  start: number;
+  end?: number;
+  time?: number;
   label?: string;
   root?: boolean;
   status?: Status;
@@ -26,16 +31,20 @@ export interface DispatchedAction {
   isSagaAction: boolean;
 }
 
-export interface EffectTriggeredAction extends AnyAction {
+export interface BaseAction extends AnyAction {
+  time: number;
+}
+
+export interface EffectTriggeredAction extends BaseAction {
   effect: TriggeredEffect;
 }
 
-export interface EffectCancelledAction extends AnyAction {
+export interface EffectCancelledAction extends BaseAction {
   effectId: number;
 }
 
 export interface SharedRefState {
-  currentAction: AnyAction;
+  currentAction: BaseAction;
 }
 
 export type EffectsState = number[];

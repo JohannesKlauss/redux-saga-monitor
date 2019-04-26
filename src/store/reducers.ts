@@ -1,8 +1,9 @@
 import {
-  DispatchedActionsState,
+  BaseAction,
+  DispatchedActionsState, EffectCancelledAction,
   EffectsByIdState,
   EffectsByParentIdState,
-  EffectsState,
+  EffectsState, EffectTriggeredAction,
   TriggeredEffect
 } from "../types";
 import {AnyAction, combineReducers} from "redux";
@@ -38,19 +39,23 @@ const getPathToEffect = (effect: TriggeredEffect, effectsByIdState: EffectsByIdS
   return path.reverse();
 };
 
-const settleEffect = (effect: TriggeredEffect, action: AnyAction, isError?: boolean): TriggeredEffect => ({
+const settleEffect = (effect: TriggeredEffect, action: EffectTriggeredAction, isError?: boolean): TriggeredEffect => ({
   ...effect,
   result: action.result,
   error: action.error,
   status: isError ? STATUS_REJECTED : STATUS_RESOLVED,
+  end: action.time,
+  time: action.time - effect.start,
 });
 
-const cancelEffect = (effect: TriggeredEffect): TriggeredEffect => ({
+const cancelEffect = (effect: TriggeredEffect, action: EffectCancelledAction): TriggeredEffect => ({
   ...effect,
   status: STATUS_CANCELLED,
+  end: action.time,
+  time: action.time - effect.start,
 });
 
-const maybeSetRaceWinner = (effect: TriggeredEffect, result: any, state: EffectsByIdState): EffectsByIdState => {
+const maybeSetRaceWinner = (effect: TriggeredEffect, result: AnyAction, state: EffectsByIdState): EffectsByIdState => {
   if (asEffect.race(effect.effect)) {
     const label: string = Object.keys(result)[0];
     const children = effect[CHILDREN];
@@ -88,7 +93,7 @@ export function effectIds(state: EffectsState = [], action: AnyAction): EffectsS
   return state;
 }
 
-export function effectsById(state: EffectsByIdState = {}, action: AnyAction): EffectsByIdState {
+export function effectsById(state: EffectsByIdState = {}, action: BaseAction): EffectsByIdState {
   let
     effectId: number = action.effectId,
     effect: TriggeredEffect,
@@ -96,14 +101,15 @@ export function effectsById(state: EffectsByIdState = {}, action: AnyAction): Ef
 
   switch (action.type) {
     case EFFECT_TRIGGERED:
-      effect = action.effect;
+      effect = (action as EffectTriggeredAction).effect;
       effectId = effect.effectId;
 
       newState = {
         ...state,
         [effectId]: {
-          status: STATUS_PENDING,
           ...effect,
+          status: STATUS_PENDING,
+          start: action.time,
           path: effect.parentEffectId ? getPathToEffect(effect, state) : [effectId],
         }
       };
@@ -121,7 +127,7 @@ export function effectsById(state: EffectsByIdState = {}, action: AnyAction): Ef
 
       newState = {
         ...state,
-        [effectId]: settleEffect(effect, action),
+        [effectId]: settleEffect(effect, (action as EffectTriggeredAction)),
       };
 
       return maybeSetRaceWinner(effect, action.result, newState);

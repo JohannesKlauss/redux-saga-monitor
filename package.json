@@ -7,6 +7,7 @@
   "author": "Johannes Klauss <johannes.klauss@aboutyou.de>",
   "license": "MIT",
   "scripts": {
+    "test": "jest",
     "build": "pack build",
     "publish": "pack publish",
     "docz:dev": "docz dev",
@@ -35,6 +36,12 @@
       ]
     ]
   },
+  "dependencies": {
+    "konva": "3.2.5",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-konva": "16.8.6"
+  },
   "devDependencies": {
     "@babel/core": "7.4.3",
     "@babel/preset-env": "7.4.3",
@@ -42,10 +49,10 @@
     "@babel/preset-typescript": "7.3.3",
     "@emotion/core": "10.0.10",
     "@pika/pack": "0.3.7",
-    "@pika/plugin-build-node": "0.3.15",
+    "@pika/plugin-build-node": "0.3.14",
     "@pika/plugin-build-types": "0.3.16",
-    "@pika/plugin-build-web": "0.3.15",
-    "@pika/plugin-ts-standard-pkg": "0.3.15",
+    "@pika/plugin-build-web": "0.3.14",
+    "@pika/plugin-ts-standard-pkg": "0.3.14",
     "@types/jest": "24.0.11",
     "@types/react": "16.8.14",
     "@types/react-dom": "16.8.4",
@@ -53,10 +60,9 @@
     "docz-theme-default": "1.0.4",
     "emotion-theming": "10.0.10",
     "jest": "24.7.1",
-    "react": "16.8.6",
-    "react-dom": "16.8.6",
     "redux": "4.0.1",
     "redux-saga": "0.16.0",
+    "ts-jest": "24.0.2",
     "typescript": "3.4.5"
   }
 }

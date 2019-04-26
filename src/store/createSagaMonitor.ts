@@ -1,11 +1,18 @@
 import {Monitor} from "redux-saga";
 import {AnyAction, createStore} from "redux";
 import rootReducer from "./reducers";
-import {TriggeredEffect} from "../types";
+import {TimeFunc, TriggeredEffect} from "../types";
 import {ACTION_DISPATCHED, EFFECT_CANCELLED, EFFECT_REJECTED, EFFECT_RESOLVED, EFFECT_TRIGGERED} from "./constants";
 import {is, SAGA_ACTION} from "redux-saga/utils";
 
-export default function createSagaMonitor(): Monitor {
+function getTime() {
+  if(typeof performance !== 'undefined' && performance.now)
+    return performance.now();
+  else
+    return Date.now();
+}
+
+export default function createSagaMonitor(time: TimeFunc = getTime): Monitor {
   const store = createStore(rootReducer);
   const dispatch = store.dispatch;
 
@@ -13,6 +20,7 @@ export default function createSagaMonitor(): Monitor {
     dispatch({
       type: EFFECT_TRIGGERED,
       effect,
+      time: time(),
     });
   }
 
@@ -36,6 +44,7 @@ export default function createSagaMonitor(): Monitor {
         type: EFFECT_RESOLVED,
         effectId,
         result,
+        time: time(),
       });
     }
   }
@@ -45,6 +54,7 @@ export default function createSagaMonitor(): Monitor {
       type: EFFECT_REJECTED,
       effectId,
       error,
+      time: time(),
     });
   }
 
@@ -52,6 +62,7 @@ export default function createSagaMonitor(): Monitor {
     dispatch({
       type: EFFECT_CANCELLED,
       effectId,
+      time: time(),
     });
   }
 
@@ -63,6 +74,7 @@ export default function createSagaMonitor(): Monitor {
       id: Date.now(),
       action,
       isSagaAction,
+      time: time(),
     });
   }
 
