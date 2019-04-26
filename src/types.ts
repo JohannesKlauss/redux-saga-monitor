@@ -1,4 +1,4 @@
-import {Effect} from "redux-saga";
+import {Effect, Monitor} from "redux-saga";
 import {AnyAction} from "redux";
 import {SAGA_ACTION} from "redux-saga/utils";
 
@@ -43,6 +43,10 @@ export interface TriggeredEffect extends EffectDescription{
   winner?: boolean;
 
   [key: string]: EffectIndexSignature;
+}
+
+export interface SagaMonitor extends Monitor {
+  state: State;
 }
 
 export interface DispatchedAction {

@@ -93,13 +93,14 @@ export function effectIds(state: EffectsState = [], action: AnyAction): EffectsS
 
 export function effectsById(state: EffectsByIdState = {}, action: BaseAction): EffectsByIdState {
   let
-    effectId: number = action.effectId ? action.effectId : (action as EffectTriggeredAction).effect.effectId,
+    effectId: number = action.effectId || 0,
     effect: EffectDescription,
     newState: EffectsByIdState;
 
   switch (action.type) {
     case EFFECT_TRIGGERED:
       effect = (action as EffectTriggeredAction).effect;
+      effectId = effect.effectId;
 
       newState = {
         ...state,

@@ -1,7 +1,6 @@
-import {Monitor} from "redux-saga";
-import {createStore, Store} from "redux";
+import {createStore} from "redux";
 import rootReducer from "./reducers";
-import {EffectDescription, SagaAction, TimeFunc, TriggeredEffect} from "../types";
+import {EffectDescription, SagaAction, SagaMonitor, State, TimeFunc} from "../types";
 import {ACTION_DISPATCHED, EFFECT_CANCELLED, EFFECT_REJECTED, EFFECT_RESOLVED, EFFECT_TRIGGERED} from "./constants";
 import {is, SAGA_ACTION} from "redux-saga/utils";
 
@@ -10,10 +9,6 @@ function getTime() {
     return performance.now();
   else
     return Date.now();
-}
-
-export interface SagaMonitor extends Monitor {
-  store: Store;
 }
 
 export default function createSagaMonitor(time: TimeFunc = getTime): SagaMonitor {
@@ -86,7 +81,7 @@ export default function createSagaMonitor(time: TimeFunc = getTime): SagaMonitor
   }
 
   return {
-    get store() { return store },
+    get state(): State { return store.getState() as State },
     effectTriggered,
     effectResolved,
     effectRejected,
