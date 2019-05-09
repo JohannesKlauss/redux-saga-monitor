@@ -33,7 +33,7 @@ export interface EffectDescription {
   [key: string]: EffectIndexSignature;
 }
 
-export interface TriggeredEffect extends EffectDescription{
+export interface TriggeredEffect extends EffectDescription {
   end?: number;
   time?: number;
   status?: Status;
