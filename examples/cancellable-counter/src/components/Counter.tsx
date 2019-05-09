@@ -3,22 +3,11 @@ import {connect} from "react-redux";
 import {State} from "../store/reducers";
 import {CANCEL_INCREMENT_ASYNC, DECREMENT, INCREMENT, INCREMENT_ASYNC, INCREMENT_IF_ODD} from "../store/actions";
 
-// tslint:disable-next-line:ban-types
-type Connected<S, D = undefined> = S extends Function
-  ? D extends undefined
-    ? // tslint:disable-next-line:ban-types
-    (ReturnType<S> extends Function
-      ? ReturnType<ReturnType<S>>
-      : ReturnType<S>) // tslint:disable-next-line:ban-types
-    : (ReturnType<S> extends Function
-    ? ReturnType<ReturnType<S>>
-    : ReturnType<S>) &
-    // tslint:disable-next-line:ban-types
-    (D extends Function ? ReturnType<D> : D)
-  : S;
-
-
-type Props = {dispatch: () => void} extends Connected<typeof mapState>;
+interface Props {
+  counter: number;
+  countdown: number;
+  dispatch: ({type, value}: {type: string, value?: any}) => void;
+}
 
 const Counter = ({counter, countdown, dispatch}: Props) => {
   const action = (type: string, value?: number) => () => dispatch({type, value});

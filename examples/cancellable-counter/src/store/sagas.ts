@@ -1,4 +1,4 @@
-import {take, put, call, fork, race, cancelled} from 'redux-saga/effects';
+import {take, put, call, fork, race, cancelled, all} from 'redux-saga/effects';
 import {eventChannel, END} from 'redux-saga';
 import {INCREMENT_ASYNC, INCREMENT, CANCEL_INCREMENT_ASYNC, COUNTDOWN_TERMINATED} from './actions';
 
@@ -57,11 +57,12 @@ export function* watchIncrementAsync() {
 
       // starts a 'Race' between an async increment and a user cancel action
       // if user cancel action wins, the incrementAsync will be cancelled automatically
-      // @ts-ignore
-      yield race([
-        call(incrementAsync, action),
-        take(CANCEL_INCREMENT_ASYNC)
-      ]);
+      yield race({
+        task: call(incrementAsync, action),
+        cancel: take(CANCEL_INCREMENT_ASYNC),
+      });
+
+      // yield call(incrementAsync, action);
     }
   } finally {
     console.log('watchIncrementAsync terminated');

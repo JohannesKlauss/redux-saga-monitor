@@ -109,6 +109,7 @@ export function effectsById(state: EffectsByIdState = {}, action: BaseAction): E
           status: STATUS_PENDING,
           start: action.time,
           path: effect.parentEffectId > -1 ? getPathToEffect(effect, state) : [effectId],
+          [CHILDREN]: [],
         }
       };
 
@@ -117,7 +118,8 @@ export function effectsById(state: EffectsByIdState = {}, action: BaseAction): E
         const parent = state[effect.parentEffectId];
 
         if (parent && asEffect.race(parent.effect)) {
-          (parent[CHILDREN.toString()] as EffectDescription[]).push(effect);
+          // @ts-ignore
+          (parent[CHILDREN] as EffectDescription[]).push(effect);
         }
       }
 

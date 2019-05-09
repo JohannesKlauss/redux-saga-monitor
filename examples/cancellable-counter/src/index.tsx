@@ -7,7 +7,7 @@ import createSagaMiddleware from 'redux-saga';
 import reducer from './store/reducers';
 import rootSaga from './store/sagas';
 import Counter from './components/Counter';
-import createSagaMonitor from "../../src/store/createSagaMonitor";
+import createSagaMonitor from "../../../src/store/createSagaMonitor";
 
 const monitor = createSagaMonitor();
 const sagaMiddleware = createSagaMiddleware({sagaMonitor: monitor});
