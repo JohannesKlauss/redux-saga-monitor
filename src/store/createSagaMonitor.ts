@@ -81,7 +81,7 @@ export default function createSagaMonitor(time: TimeFunc = getTime): SagaMonitor
   }
 
   return {
-    get state(): State { return store.getState() as State },
+    get store() { return store },
     effectTriggered,
     effectResolved,
     effectRejected,
