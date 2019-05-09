@@ -56,7 +56,8 @@ const cancelEffect = (effect: EffectDescription, action: EffectCancelledAction):
 const maybeSetRaceWinner = (effect: EffectDescription, result: AnyAction, state: EffectsByIdState): EffectsByIdState => {
   if (asEffect.race(effect.effect)) {
     const label: string = Object.keys(result)[0];
-    const children = effect[CHILDREN.toString()] as EffectDescription[];
+    // @ts-ignore
+    const children = effect[CHILDREN] as EffectDescription[];
 
     for (let i = 0; i < children.length; i++) {
       const child = children[i];
