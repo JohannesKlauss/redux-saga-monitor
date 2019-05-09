@@ -1,18 +1,28 @@
-import {Monitor} from "redux-saga";
-import {AnyAction, createStore} from "redux";
+import {createStore} from "redux";
 import rootReducer from "./reducers";
-import {TriggeredEffect} from "../types";
+import {EffectDescription, SagaAction, SagaMonitor, State, TimeFunc} from "../types";
 import {ACTION_DISPATCHED, EFFECT_CANCELLED, EFFECT_REJECTED, EFFECT_RESOLVED, EFFECT_TRIGGERED} from "./constants";
 import {is, SAGA_ACTION} from "redux-saga/utils";
 
-export default function createSagaMonitor(): Monitor {
+function getTime() {
+  if(typeof performance !== 'undefined' && performance.now)
+    return performance.now();
+  else
+    return Date.now();
+}
+
+export default function createSagaMonitor(time: TimeFunc = getTime): SagaMonitor {
   const store = createStore(rootReducer);
   const dispatch = store.dispatch;
 
-  function effectTriggered(effect: TriggeredEffect) {
+  function effectTriggered(effect: EffectDescription) {
+    const now = time();
+
     dispatch({
       type: EFFECT_TRIGGERED,
       effect,
+      start: now,
+      time: now,
     });
   }
 
@@ -36,6 +46,7 @@ export default function createSagaMonitor(): Monitor {
         type: EFFECT_RESOLVED,
         effectId,
         result,
+        time: time(),
       });
     }
   }
@@ -45,6 +56,7 @@ export default function createSagaMonitor(): Monitor {
       type: EFFECT_REJECTED,
       effectId,
       error,
+      time: time(),
     });
   }
 
@@ -52,21 +64,24 @@ export default function createSagaMonitor(): Monitor {
     dispatch({
       type: EFFECT_CANCELLED,
       effectId,
+      time: time(),
     });
   }
 
-  function actionDispatched(action: AnyAction) {
-    const isSagaAction: boolean = action[SAGA_ACTION];
+  function actionDispatched(action: SagaAction) {
+    const isSagaAction: boolean = action[SAGA_ACTION.toString()];
 
     dispatch({
       type: ACTION_DISPATCHED,
       id: Date.now(),
       action,
       isSagaAction,
+      time: time(),
     });
   }
 
   return {
+    get state(): State { return store.getState() as State },
     effectTriggered,
     effectResolved,
     effectRejected,
