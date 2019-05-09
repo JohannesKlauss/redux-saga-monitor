@@ -8,6 +8,7 @@ import reducer from './store/reducers';
 import rootSaga from './store/sagas';
 import Counter from './components/Counter';
 import createSagaMonitor from "../../../src/store/createSagaMonitor";
+import {SagaGraphView} from "../../../src/saga-graph";
 
 const monitor = createSagaMonitor();
 const sagaMiddleware = createSagaMiddleware({sagaMonitor: monitor});
@@ -29,6 +30,7 @@ ReactDOM.render(
         <Counter/>
       </div>
     </Provider>
+    <SagaGraphView monitor={monitor}/>
   </div>,
   document.getElementById('root')
 );

@@ -46,7 +46,7 @@ export interface TriggeredEffect extends EffectDescription{
 }
 
 export interface SagaMonitor extends Monitor {
-  state: State;
+  store: any; // TODO: TYPE THIS PROPERLY
 }
 
 export interface DispatchedAction {
