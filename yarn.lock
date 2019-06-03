@@ -7010,10 +7010,10 @@ kleur@^3.0.2:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-konva@3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/konva/-/konva-3.3.0.tgz#37c6b18072a1886c4677a61bf2d1e5e959d1e996"
-  integrity sha512-RAwTm0Op432k244Si3A+5IdzyMG01busyvsWgXOSmFfG44qq+51WSlTQQx02Qg2Aw6qxLzrhqlAaKS2rARH0dQ==
+konva@3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/konva/-/konva-3.3.2.tgz#59bb4905a97136da7e0b04ea7ac43d9c87da1ff3"
+  integrity sha512-i11HHVtpnXLR+30iUk3ffLIu0OYguI+E0mEolT0bW6DhKdkFd65s+LemRk6arw4ddJKAi9YVuPi8aZ8ebOUshg==
 
 lazy-cache@^0.2.3:
   version "0.2.7"
