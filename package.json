@@ -39,7 +39,7 @@
       ]
     ]
   },
-  "peerDependencies": {
+  "dependencies": {
     "redux-saga": "0.16.0"
   },
   "devDependencies": {
