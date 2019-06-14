@@ -1,6 +1,5 @@
 import {Effect, Monitor} from "redux-saga";
 import {AnyAction} from "redux";
-import {SAGA_ACTION} from "redux-saga/utils";
 
 export type Status = 'STATUS_PENDING'
   | 'STATUS_RESOLVED'
@@ -45,10 +44,6 @@ export interface TriggeredEffect extends EffectDescription{
   [key: string]: EffectIndexSignature;
 }
 
-export interface SagaMonitor extends Monitor {
-  store: any; // TODO: TYPE THIS PROPERLY
-}
-
 export interface DispatchedAction {
   id: number;
   action: AnyAction;
@@ -89,4 +84,8 @@ export interface State {
   effectsByParentId: EffectsByParentIdState;
   dispatchedActions: DispatchedActionsState;
   sharedRef: any;
+}
+
+export interface SagaMonitor extends Monitor {
+  store: any; // TODO: Type this properly
 }

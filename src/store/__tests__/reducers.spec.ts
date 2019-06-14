@@ -11,6 +11,8 @@ import {
   STATUS_RESOLVED
 } from "../constants";
 
+const symbol = Symbol('CHILDREN');
+
 describe('reducers', () => {
   let timeIndex = 1;
 
@@ -66,12 +68,13 @@ describe('reducers', () => {
         time: timeIndex++,
       });
 
-      expect(state).toEqual({
+      expect(state).toMatchObject({
         [effectMock1.effectId]: {
           ...effectMock1,
           path: [1, 2],
           start: 1,
           status: STATUS_PENDING,
+          [symbol]: [],
         }
       });
     });
@@ -89,11 +92,12 @@ describe('reducers', () => {
         time: timeIndex++,
       });
 
-      expect(state[effectMock1.effectId]).toEqual({
+      expect(state[effectMock1.effectId]).toMatchObject({
         ...effectMock1,
         path: [1, 2],
         start: 2,
         status: STATUS_PENDING,
+        [symbol]: [],
       });
     });
 
@@ -110,7 +114,7 @@ describe('reducers', () => {
         time: timeIndex++,
       });
 
-      expect(state).toEqual({
+      expect(state).toMatchObject({
         [effectMock1.effectId]: {
           ...effectMock1,
           path: [1, 2],
@@ -120,6 +124,7 @@ describe('reducers', () => {
           status: STATUS_RESOLVED,
           result: undefined,
           error: undefined,
+          [symbol]: [],
         }
       });
     });
@@ -137,7 +142,7 @@ describe('reducers', () => {
         time: timeIndex++,
       });
 
-      expect(state).toEqual({
+      expect(state).toMatchObject({
         [effectMock1.effectId]: {
           ...effectMock1,
           path: [1, 2],
@@ -147,6 +152,7 @@ describe('reducers', () => {
           status: STATUS_REJECTED,
           result: undefined,
           error: undefined,
+          [symbol]: [],
         }
       });
     });
@@ -164,7 +170,7 @@ describe('reducers', () => {
         time: timeIndex++,
       });
 
-      expect(state).toEqual({
+      expect(state).toMatchObject({
         [effectMock1.effectId]: {
           ...effectMock1,
           path: [1, 2],
@@ -172,6 +178,7 @@ describe('reducers', () => {
           end: 2,
           time: 1,
           status: STATUS_CANCELLED,
+          [symbol]: [],
         }
       });
     });

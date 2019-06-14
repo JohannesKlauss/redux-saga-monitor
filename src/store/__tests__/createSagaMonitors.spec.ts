@@ -1,5 +1,5 @@
 import createSagaMonitor from "../createSagaMonitor";
-import {effectMock1, rootEffectMock} from "../__mocks__/effects.mock";
+import {rootEffectMock} from "../__mocks__/effects.mock";
 import {STATUS_PENDING} from "../constants";
 import {SAGA_ACTION} from "redux-saga/utils";
 
@@ -11,12 +11,14 @@ const now = Date.now();
 
 Date.now = jest.fn().mockReturnValue(now);
 
+const symbol = Symbol('CHILDREN');
+
 describe('createSagaMonitor', () => {
   describe('effectTriggered', () => {
     test('should trigger the correct action when called', () => {
       monitor.effectTriggered!(rootEffectMock);
 
-      expect(monitor.state.effectsById[rootEffectMock.effectId]).toEqual({
+      expect(monitor.store.getState().effectsById[rootEffectMock.effectId]).toMatchObject({
         effect: rootEffectMock.effect,
         effectId: 1,
         parentEffectId: -1,
@@ -24,6 +26,7 @@ describe('createSagaMonitor', () => {
         root: true,
         start: 1,
         status: STATUS_PENDING,
+        [symbol]: [],
       });
     });
   });
@@ -35,7 +38,7 @@ describe('createSagaMonitor', () => {
         [SAGA_ACTION]: true,
       });
 
-      expect(monitor.state.dispatchedActions).toEqual([{
+      expect(monitor.store.getState().dispatchedActions).toMatchObject([{
         action: {
           type: 'MOCK_ACTION',
           [SAGA_ACTION]: true,
@@ -43,6 +46,7 @@ describe('createSagaMonitor', () => {
         id: Date.now(),
         isSagaAction: true,
         time: 2,
+        [symbol]: [],
       }]);
     });
   });
