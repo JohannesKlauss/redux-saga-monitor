@@ -1,10 +1,10 @@
 {
   "name": "redux-saga-graph",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A saga middleware for redux-saga to create a saga control flow graph",
   "main": "index.js",
   "repository": "git@github.com:JohannesKlauss/redux-saga-graph.git",
-  "author": "Johannes Klauss <johannes.klauss@aboutyou.de>",
+  "author": "Johannes Klauss <klauss.johannes@gmail.com>",
   "license": "MIT",
   "scripts": {
     "test": "jest",
@@ -39,18 +39,10 @@
       ]
     ]
   },
-  "dependencies": {
-    "konva": "3.3.3",
-    "react": "16.8.6",
-    "react-dom": "16.8.6",
-    "react-konva": "16.8.6"
+  "peerDependencies": {
+    "redux-saga": "0.16.0"
   },
   "devDependencies": {
-    "@babel/core": "7.4.5",
-    "@babel/preset-env": "7.4.5",
-    "@babel/preset-react": "7.0.0",
-    "@babel/preset-typescript": "7.3.3",
-    "@emotion/core": "10.0.10",
     "@pika/pack": "0.3.7",
     "@pika/plugin-build-node": "0.4.0",
     "@pika/plugin-build-types": "0.4.0",
@@ -63,11 +55,11 @@
     "awesome-typescript-loader": "5.2.1",
     "docz": "1.0.4",
     "docz-theme-default": "1.0.4",
-    "emotion-theming": "10.0.10",
     "jest": "24.7.1",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
     "react-redux": "7.1.0",
     "redux": "4.0.1",
-    "redux-saga": "0.16.0",
     "source-map-loader": "0.2.4",
     "ts-jest": "24.0.2",
     "typescript": "3.5.2",

@@ -1,16 +1,16 @@
 import * as React from 'react';
-import {State} from "../../../types";
 import {connect} from "react-redux";
+import {State} from "../../../../src/types";
 
 interface Props {
   state: State;
 }
 
-function Graph({state}: Props) {
+function Monitor({state}: Props) {
   console.log('>>> dump state', state);
 
   return (
-    <div>Hi</div>
+    <div>Monitor active</div>
   );
 }
 
@@ -20,4 +20,4 @@ const mapState = (state: State) => ({
 
 export default connect(
   mapState
-)(Graph);
+)(Monitor);

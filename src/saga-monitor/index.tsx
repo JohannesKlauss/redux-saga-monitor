@@ -1,16 +1,16 @@
 import React from 'react'
 import {Provider} from "react-redux";
 import {SagaMonitor} from "../types";
-import Graph from "./components/graph";
 
 interface Props {
   monitor: SagaMonitor;
+  children?: JSX.Element;
 }
 
-export function SagaGraphView({monitor}: Props) {
+export function SagaMonitorView(props: Props) {
   return (
-    <Provider store={monitor.store}>
-      <Graph/>
+    <Provider store={props.monitor.store}>
+      {props.children}
     </Provider>
   )
 }

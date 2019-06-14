@@ -7,8 +7,8 @@ import createSagaMiddleware from 'redux-saga';
 import reducer from './store/reducers';
 import rootSaga from './store/sagas';
 import Counter from './components/Counter';
-import createSagaMonitor from "../../../src/store/createSagaMonitor";
-import {SagaGraphView} from "../../../src/saga-graph";
+import {createSagaMonitor, SagaMonitorView} from "../../../src";
+import Monitor from "./components/Monitor";
 
 const monitor = createSagaMonitor();
 const sagaMiddleware = createSagaMiddleware({sagaMonitor: monitor});
@@ -30,7 +30,9 @@ ReactDOM.render(
         <Counter/>
       </div>
     </Provider>
-    <SagaGraphView monitor={monitor}/>
+    <SagaMonitorView monitor={monitor}>
+      <Monitor/>
+    </SagaMonitorView>
   </div>,
   document.getElementById('root')
 );
