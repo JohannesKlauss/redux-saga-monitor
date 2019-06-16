@@ -5,6 +5,7 @@
   "main": "index.js",
   "repository": "git@github.com:JohannesKlauss/redux-saga-graph.git",
   "author": "Johannes Klauss <klauss.johannes@gmail.com>",
+  "keywords": ["redux", "redux-saga", "middleware", "saga", "saga-monitor", "dev-tools"],
   "license": "MIT",
   "scripts": {
     "test": "jest",
