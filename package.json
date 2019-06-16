@@ -5,7 +5,14 @@
   "main": "index.js",
   "repository": "git@github.com:JohannesKlauss/redux-saga-graph.git",
   "author": "Johannes Klauss <klauss.johannes@gmail.com>",
-  "keywords": ["redux", "redux-saga", "middleware", "saga", "saga-monitor", "dev-tools"],
+  "keywords": [
+    "redux",
+    "redux-saga",
+    "middleware",
+    "saga",
+    "saga-monitor",
+    "dev-tools"
+  ],
   "license": "MIT",
   "scripts": {
     "test": "jest",
@@ -15,7 +22,8 @@
     "publish": "pack publish",
     "docz:dev": "docz dev",
     "docz:build": "docz build",
-    "example:cancellable-counter": "webpack-dev-server --config ./examples/cancellable-counter/webpack.config.js"
+    "example:cancellable-counter": "webpack-dev-server --config ./examples/cancellable-counter/webpack.config.js",
+    "version": "npm run build"
   },
   "babel": {
     "presets": [
