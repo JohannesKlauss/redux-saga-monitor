@@ -11,7 +11,7 @@ function Monitor({state}: Props) {
 
   return (
     <div>
-      {(window as any).__REDUX_SAGA_MONITOR_GLOBAL_HOOK ? `Monitor active`: `Monitor hook not found!`}
+      {(window as any).__REDUX_SAGA_MONITOR_GLOBAL_HOOK__ ? `Monitor active`: `Monitor hook not found!`}
     </div>
   );
 }

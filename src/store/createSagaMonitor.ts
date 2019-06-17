@@ -81,7 +81,7 @@ export default function createSagaMonitor(time: TimeFunc = getTime): SagaMonitor
   }
 
   // TODO: THIS SHOULD BE TYPED OUT PROPERLY
-  (<any>window).__REDUX_SAGA_MONITOR_GLOBAL_HOOK = true;
+  (<any>window).__REDUX_SAGA_MONITOR_GLOBAL_HOOK__ = true;
 
   return {
     get store() { return store },
