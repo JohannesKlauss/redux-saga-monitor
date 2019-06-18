@@ -1,5 +1,5 @@
 ## [0.1.8] - 18-Jun-2019
-* Bump up redux-saga version to 1.0.3.
+* Bump up redux-saga version to 0.16.2.
 
 ## [0.1.7] - 17-Jun-2019
 * Fixed name of global hook flag.
