@@ -1,6 +1,6 @@
 {
   "name": "redux-saga-monitor",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A saga middleware for redux-saga to create a saga control flow graph",
   "main": "index.js",
   "repository": "git@github.com:JohannesKlauss/redux-saga-graph.git",
