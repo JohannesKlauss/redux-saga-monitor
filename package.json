@@ -49,7 +49,7 @@
     ]
   },
   "dependencies": {
-    "redux-saga": "1.0.3"
+    "redux-saga": "0.16.2"
   },
   "devDependencies": {
     "@pika/pack": "0.4.0",
